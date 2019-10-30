@@ -1,13 +1,9 @@
 
-
-
 <div *ngIf="AllFeeds; else FeedView">
 
 <button (click)="ToggleMyFeedsView()">
   {{ onlyMyFeeds ? 'View my feeds' : 'View all feeds' }}
 </button>
-
-
 
 <table>
   <tr *ngFor="let feed of myFeeds">
@@ -37,8 +33,6 @@
     {{ !onlyMyFeeds ? 'Go back to my feeds' : 'Go back to all feeds' }}
    </button>
 
-
-   
   
   <ck-spinner *ngIf="!feeds.length"></ck-spinner>
   
@@ -60,12 +54,9 @@
     
   </mat-accordion>
 
-
   <button (click)= "AllFeeds = !AllFeeds">
     {{ !onlyMyFeeds ? 'Go back to my feeds' : 'Go back to all feeds' }}
    </button>
-
-
   
 </ng-template>
 

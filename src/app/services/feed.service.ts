@@ -15,13 +15,10 @@ export class FeedService {
 
   constructor(private http: HttpClient) { }
 
-
-
   getFeedContent(url: string): Observable<Feed> {
     return this.http.get(url, { responseType: 'text' }).pipe(
       map(this.extractFeeds));
   }
-
 
 
   private extractFeeds(response: any): Feed {
@@ -34,7 +31,6 @@ export class FeedService {
       }
       feed = result;
     });
-
     return feed || {};
   }
 
@@ -43,21 +39,7 @@ export class FeedService {
     console.log('alooo', algo);
   }
 
-  GetWagerType(): Observable<any> {
-
-    console.log('AQUI');
-
-
-    const url = 'http://localhost:63100/api/Quizzes/GetAllFeeds';
-
-    return this.http.get(url).pipe(
-      map((response: Response) => response)
-
-    );
-  }
-
-
-  GetWagerType2(): Observable<any> {
+  GetMyFeeds(): Observable<any> {
 
     const url = 'http://localhost:63100/api/Quizzes/GetMyFeeds';
     const myBody = {
@@ -66,7 +48,6 @@ export class FeedService {
 
     return this.http.post(url, myBody).pipe(
       map((response: Response) => response)
-
     );
   }
 
