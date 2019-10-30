@@ -1,0 +1,63 @@
+
+<div *ngIf="AllFeeds; else FeedView">
+
+<button (click)="ToggleMyFeedsView()">
+  {{ onlyMyFeeds ? 'View my feeds' : 'View all feeds' }}
+</button>
+
+
+
+<table>
+  <tr *ngFor="let feed of myFeeds">
+    <td>{{feed.name}}</td>
+    <td>{{feed.url}}</td>
+    <td>
+      <button (click) = "refreshFeedMF(feed.url)">view feed</button>
+    </td>
+    <td>
+      <button (click) = "Subscribe(feed.id)">  {{feed.subscribed? 'Unsubscribe' : 'Subscribe'}}   </button>
+    </td>
+  </tr>
+</table>
+
+</div>
+
+<ng-template #FeedView>
+  
+
+  <mat-toolbar color="primary">
+    <span>{{title}}</span>
+    <span class="fill-remaining-space"></span>
+    <span><i style="cursor:pointer" class="material-icons" (click)="refreshFeed()">refresh</i></span>
+  </mat-toolbar>
+  
+  <ck-spinner *ngIf="!feeds.length"></ck-spinner>
+  
+  <mat-accordion>
+  
+    <mat-expansion-panel *ngFor="let feed of feeds">
+      <mat-expansion-panel-header>
+        <span style="font-size: smaller"> {{feed.title | slice:0:85}}</span>
+      </mat-expansion-panel-header>
+      <!-- <img (click)="openLinkInBrowser(feed)" width="100%" src="{{feed | thumbnail}}" alt="..."> -->
+      <br>
+      {{feed.description | slice:0:1000}}...
+      
+      <mat-action-row>ß
+          <span style="cursor: pointer" (click)="openLinkInBrowser(feed)">Go to site!</span>
+      </mat-action-row>
+      
+    </mat-expansion-panel>
+    
+  </mat-accordion>
+
+
+  <button (click)= "AllFeeds = !AllFeeds">
+    {{ !onlyMyFeeds ? 'Go back to my feeds' : 'Go back to all feeds' }}
+   </button>
+
+
+  
+</ng-template>
+
+
