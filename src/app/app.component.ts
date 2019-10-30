@@ -12,7 +12,7 @@ import { environment } from '../environments/environment';
   selector: 'ck-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css',
-              '../assets/addtohomescreen.css'],
+    '../assets/addtohomescreen.css'],
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit, AfterViewInit {
@@ -24,53 +24,53 @@ export class AppComponent implements OnInit, AfterViewInit {
   onlyMyFeeds = true;
 
   myFeeds: any; // Array<Feed> = [];
+  testME: any;
+  errorMessage: any;
+  myFeeds2: any;
+  DoSubscribeUnSubscribeResult: any;
 
   constructor(
     private feedService: FeedService,
     private elementRef: ElementRef
-  ) {}
+  ) { }
 
   ngOnInit() {
-    this.myFeeds = this.feedService.getFeeds();
+    // this.getGeo();
+    this.getGeo2();
+
   }
 
   ngAfterViewInit() {
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.innerHTML = 'addToHomescreen();';
-      this.elementRef.nativeElement.appendChild(script);
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.innerHTML = 'addToHomescreen();';
+    this.elementRef.nativeElement.appendChild(script);
   }
 
   refreshFeed() {
     this.feeds.length = 0;
 
     this.feedService.getFeedContent(this.feedLocation).pipe(delay(500))
-        .subscribe(
-            feed => {
-              // console.log('feed: ' , feed);
-              this.title = feed.rss.channel.description;
-              this.feeds = feed.rss.channel.item;
-            } ,
-            error => console.log(error));
+      .subscribe(
+        feed => {
+          // console.log('feed: ' , feed);
+          this.title = feed.rss.channel.description;
+          this.feeds = feed.rss.channel.item;
+        },
+        error => console.log(error));
   }
 
   ToggleMyFeedsView() {
     this.onlyMyFeeds = !this.onlyMyFeeds;
     if (!this.onlyMyFeeds) {
-      this.myFeeds = this.myFeeds.filter(e => e.subscribed);
+      this.myFeeds = this.myFeeds.filter(e => e.isSubscribed);
     } else {
-      this.myFeeds  = [];
-      this.myFeeds = this.feedService.getFeeds();
+      this.getGeo2();
     }
   }
 
   Subscribe(feedId) {
-    if (this.onlyMyFeeds) {
-      alert ('Unsubscribe');
-
-    } else {
-      alert ('Subscribe');
-    }
+    this.DoSubscribeUnSubscribe(feedId);
   }
 
 
@@ -78,13 +78,13 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.feeds.length = 0;
 
     this.feedService.getFeedContent(myFeed).pipe(delay(500))
-        .subscribe(
-            feed => {
-              // console.log('feed: ' , feed);
-              this.title = feed.rss.channel.description;
-              this.feeds = feed.rss.channel.item;
-            } ,
-            error => console.log(error));
+      .subscribe(
+        feed => {
+          // console.log('feed: ' , feed);
+          this.title = feed.rss.channel.description;
+          this.feeds = feed.rss.channel.item;
+        },
+        error => console.log(error));
 
     this.AllFeeds = false;
 
@@ -94,4 +94,47 @@ export class AppComponent implements OnInit, AfterViewInit {
   openLinkInBrowser(feed: { link: string; }) {
     window.open(feed.link);
   }
+
+
+
+  getGeo2() {
+
+    console.log('AQUI', this.myFeeds);
+    this.myFeeds = [];
+    this.feedService.GetWagerType2()
+      .subscribe(response => {
+        console.log('aquiiii');
+
+        this.myFeeds = response;
+        console.log('AQUI', this.myFeeds);
+
+      },
+        error => {
+          this.errorMessage = error as any;
+          console.log('errrrrror', error);
+
+        });
+  }
+
+
+  DoSubscribeUnSubscribe(FeedId) {
+
+    this.feedService.DoSubscribeUnSubscribe(FeedId)
+    .subscribe(response => {
+
+      this.DoSubscribeUnSubscribeResult = response;
+      console.log('AQUI', this.DoSubscribeUnSubscribeResult);
+      this.getGeo2();
+
+
+    },
+      error => {
+        this.errorMessage = error as any;
+        console.log('errrrrror', error);
+
+      });
+
+
+  }
+
 }

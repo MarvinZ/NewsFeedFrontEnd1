@@ -1,4 +1,6 @@
 
+
+
 <div *ngIf="AllFeeds; else FeedView">
 
 <button (click)="ToggleMyFeedsView()">
@@ -9,13 +11,13 @@
 
 <table>
   <tr *ngFor="let feed of myFeeds">
-    <td>{{feed.name}}</td>
+    <td>{{feed.title}}</td>
     <td>{{feed.url}}</td>
     <td>
       <button (click) = "refreshFeedMF(feed.url)">view feed</button>
     </td>
     <td>
-      <button (click) = "Subscribe(feed.id)">  {{feed.subscribed? 'Unsubscribe' : 'Subscribe'}}   </button>
+      <button (click) = "Subscribe(feed.id)">  {{feed.isSubscribed? 'Unsubscribe' : 'Subscribe'}}   </button>
     </td>
   </tr>
 </table>
@@ -30,6 +32,13 @@
     <span class="fill-remaining-space"></span>
     <span><i style="cursor:pointer" class="material-icons" (click)="refreshFeed()">refresh</i></span>
   </mat-toolbar>
+
+  <button (click)= "AllFeeds = !AllFeeds">
+    {{ !onlyMyFeeds ? 'Go back to my feeds' : 'Go back to all feeds' }}
+   </button>
+
+
+   
   
   <ck-spinner *ngIf="!feeds.length"></ck-spinner>
   
