@@ -10,7 +10,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule, MatExpansionModule } from '@angular/material';
+import { MatToolbarModule, MatExpansionModule, MatButtonModule, MatFormFieldModule } from '@angular/material';
 
 import { FeedService } from './services/feed.service';
 import { SpinnerComponent } from './spinner/spinner.component';
@@ -34,6 +34,7 @@ import { FilterPipe } from './pipes/simpleFilter.pipe';
     BrowserAnimationsModule,
     MatToolbarModule,
     MatExpansionModule,
+    MatButtonModule, MatFormFieldModule,
     FormsModule
   ],
   providers: [

@@ -27,17 +27,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   errorMessage: any;
   myFeeds2: any;
   DoSubscribeUnSubscribeResult: any;
-
-  characters = [
-    'Finn the human',
-    'Jake the dog',
-    'Princess bubblegum',
-    'Lumpy Space Princess',
-    'Beemo1',
-    'Beemo2'
-  ]
-
-  
+  currentFeed: any;
 
   constructor(
     private feedService: FeedService,
@@ -46,7 +36,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.GetMyFeeds();
-
   }
 
   ngAfterViewInit() {
@@ -54,18 +43,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     script.type = 'text/javascript';
     script.innerHTML = 'addToHomescreen();';
     this.elementRef.nativeElement.appendChild(script);
-  }
-
-  refreshFeed() {
-    this.feeds.length = 0;
-
-    this.feedService.getFeedContent(this.feedLocation).pipe(delay(500))
-      .subscribe(
-        feed => {
-          this.title = feed.rss.channel.description;
-          this.feeds = feed.rss.channel.item;
-        },
-        error => console.log(error));
   }
 
   ToggleMyFeedsView() {
@@ -81,9 +58,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.DoSubscribeUnSubscribe(feedId);
   }
 
-
   refreshFeedMF(myFeed) {
     this.feeds.length = 0;
+    this.currentFeed = myFeed;
     this.feedService.getFeedContent(myFeed).pipe(delay(500))
       .subscribe(
         feed => {
@@ -95,10 +72,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   }
 
-
-  openLinkInBrowser(feed: { link: string; }) {
-    window.open(feed.link);
-  }
+  // openLinkInBrowser(feed: { link: string; }) {
+  //   window.open(feed.link);
+  // }
 
 
   GetMyFeeds() {
@@ -113,20 +89,17 @@ export class AppComponent implements OnInit, AfterViewInit {
         });
   }
 
-
   DoSubscribeUnSubscribe(FeedId) {
     this.feedService.DoSubscribeUnSubscribe(FeedId)
-    .subscribe(response => {
-      this.DoSubscribeUnSubscribeResult = response;
-      this.GetMyFeeds();
-    },
-      error => {
-        this.errorMessage = error as any;
-        console.log('errrrrror', error);
+      .subscribe(response => {
+        this.DoSubscribeUnSubscribeResult = response;
+        this.GetMyFeeds();
+      },
+        error => {
+          this.errorMessage = error as any;
+          console.log('errrrrror', error);
 
-      });
-
-
+        });
   }
 
 }

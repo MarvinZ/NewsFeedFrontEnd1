@@ -1,53 +1,56 @@
-
 <div *ngIf="AllFeeds; else FeedView">
 
-<button (click)="ToggleMyFeedsView()">
-  {{ onlyMyFeeds ? 'View my feeds' : 'View all feeds' }}
-</button>
+  <button mat-raised-button color="primary" (click)="ToggleMyFeedsView()">
+    {{ onlyMyFeeds ? 'View only my feeds' : 'View all feeds' }}
+  </button>
 
+  <br>
+  <hr>
+  <br>
 
+  <div class="example-container">
+    <input matInput [(ngModel)]="searchText" placeholder="search sports">
 
-<input [(ngModel)]="searchText" placeholder="search text goes here">
-<!-- <ul>
-  <li *ngFor="let c of characters | filter2 : searchText">
-    {{c}}
-  </li>
-</ul> -->
+  </div>
 
+  <br>
 
-<table>
-  <tr *ngFor="let feed of myFeeds | filter2 : searchText ">
-    <td>{{feed.title}}</td>
-    <td>{{feed.url}}</td>
-    <td>
-      <button (click) = "refreshFeedMF(feed.url)">view feed</button>
-    </td>
-    <td>
-      <button (click) = "Subscribe(feed.id)">  {{feed.isSubscribed? 'Unsubscribe' : 'Subscribe'}}   </button>
-    </td>
-  </tr>
-</table>
+  <table class="table">
+    <tr *ngFor="let feed of myFeeds | filter2 : searchText ">
+      <td>{{feed.title}}</td>
+      <td>{{feed.url}}</td>
+      <td>
+        <button mat-stroked-button color="warn" (click)="refreshFeedMF(feed.url)">view feed</button>
+      </td>
+      <td>
+        <button mat-stroked-button color="warn" (click)="Subscribe(feed.id)">
+          {{feed.isSubscribed? 'Unsubscribe' : 'Subscribe'}} </button>
+      </td>
+    </tr>
+  </table>
 
 </div>
 
 <ng-template #FeedView>
-  
+
 
   <mat-toolbar color="primary">
     <span>{{title}}</span>
     <span class="fill-remaining-space"></span>
-    <span><i style="cursor:pointer" class="material-icons" (click)="refreshFeed()">refresh</i></span>
+    <span><i style="cursor:pointer" class="material-icons" (click)="refreshFeedMF(currentFeed)">refresh</i></span>
   </mat-toolbar>
 
-  <button (click)= "AllFeeds = !AllFeeds">
-    {{ !onlyMyFeeds ? 'Go back to my feeds' : 'Go back to all feeds' }}
-   </button>
 
-  
+
+  <button mat-stroked-button color="warn" (click)="AllFeeds = !AllFeeds">
+    {{ !onlyMyFeeds ? 'Go back to my feeds' : 'Go back to all feeds' }}
+  </button>
+
+
   <ck-spinner *ngIf="!feeds.length"></ck-spinner>
-  
+
   <mat-accordion>
-  
+
     <mat-expansion-panel *ngFor="let feed of feeds">
       <mat-expansion-panel-header>
         <span style="font-size: smaller"> {{feed.title | slice:0:85}}</span>
@@ -55,22 +58,20 @@
       <!-- <img (click)="openLinkInBrowser(feed)" width="100%" src="{{feed | thumbnail}}" alt="..."> -->
       <br>
       {{feed.description | slice:0:1000}}...
-      
+
       <div>
-          <img src={{feed.image}} />
-        </div>
+        <img src={{feed.image}} />
+      </div>
       <mat-action-row>
-          <span style="cursor: pointer" (click)="openLinkInBrowser(feed)">Go to site!</span>
+        <span style="cursor: pointer" (click)="openLinkInBrowser(feed)">Go to site!</span>
       </mat-action-row>
-      
+
     </mat-expansion-panel>
-    
+
   </mat-accordion>
 
-  <button (click)= "AllFeeds = !AllFeeds">
+  <button mat-stroked-button color="warn" (click)="AllFeeds = !AllFeeds">
     {{ !onlyMyFeeds ? 'Go back to my feeds' : 'Go back to all feeds' }}
-   </button>
-  
+  </button>
+
 </ng-template>
-
-
