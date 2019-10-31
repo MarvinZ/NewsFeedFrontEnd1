@@ -41,7 +41,7 @@ export class FeedService {
 
   GetMyFeeds(): Observable<any> {
 
-    const url = 'http://localhost:63100/api/Quizzes/GetMyFeeds';
+    const url = 'http://localhost:63100/api/Feed/GetMyFeeds';
     const myBody = {
       UserId: 'dsfsfsdfsdf'
     };
@@ -52,7 +52,7 @@ export class FeedService {
   }
 
   DoSubscribeUnSubscribe(feedId): Observable<any> {
-    const url = 'http://localhost:63100/api/Quizzes/SubscribeUnsubscribe';
+    const url = 'http://localhost:63100/api/Feed/SubscribeUnsubscribe';
     const myBody = {
       UserId: 'dsfsfsdfsdf',
       FeedId: feedId
