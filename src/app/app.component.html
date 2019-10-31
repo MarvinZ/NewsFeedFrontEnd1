@@ -15,10 +15,10 @@
 
   <br>
 
-  <table class="table">
-    <tr *ngFor="let feed of myFeeds | filter2 : searchText ">
+  <table style="text-align:center;">
+      <tr *ngFor="let feed of myFeeds | filter2 : searchText ">
       <td>{{feed.title}}</td>
-      <td>{{feed.url}}</td>
+      <!-- <td>{{feed.url}}</td> -->
       <td>
         <button mat-stroked-button color="warn" (click)="refreshFeedMF(feed.url)">view feed</button>
       </td>
@@ -60,7 +60,7 @@
       {{feed.description | slice:0:1000}}...
 
       <div>
-        <img src={{feed.image}} />
+        <img src={{feed.image}} width="50%"/>
       </div>
       <mat-action-row>
         <span style="cursor: pointer" (click)="openLinkInBrowser(feed)">Go to site!</span>
