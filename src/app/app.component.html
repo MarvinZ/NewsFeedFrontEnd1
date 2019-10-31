@@ -5,8 +5,18 @@
   {{ onlyMyFeeds ? 'View my feeds' : 'View all feeds' }}
 </button>
 
+
+
+<input [(ngModel)]="searchText" placeholder="search text goes here">
+<!-- <ul>
+  <li *ngFor="let c of characters | filter2 : searchText">
+    {{c}}
+  </li>
+</ul> -->
+
+
 <table>
-  <tr *ngFor="let feed of myFeeds">
+  <tr *ngFor="let feed of myFeeds | filter2 : searchText ">
     <td>{{feed.title}}</td>
     <td>{{feed.url}}</td>
     <td>
@@ -46,7 +56,10 @@
       <br>
       {{feed.description | slice:0:1000}}...
       
-      <mat-action-row>ß
+      <div>
+          <img src={{feed.image}} />
+        </div>
+      <mat-action-row>
           <span style="cursor: pointer" (click)="openLinkInBrowser(feed)">Go to site!</span>
       </mat-action-row>
       

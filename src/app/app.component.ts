@@ -28,6 +28,17 @@ export class AppComponent implements OnInit, AfterViewInit {
   myFeeds2: any;
   DoSubscribeUnSubscribeResult: any;
 
+  characters = [
+    'Finn the human',
+    'Jake the dog',
+    'Princess bubblegum',
+    'Lumpy Space Princess',
+    'Beemo1',
+    'Beemo2'
+  ]
+
+  
+
   constructor(
     private feedService: FeedService,
     private elementRef: ElementRef

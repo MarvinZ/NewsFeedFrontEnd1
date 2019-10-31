@@ -1,3 +1,5 @@
+import { FormsModule } from '@angular/forms';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -13,13 +15,16 @@ import { MatToolbarModule, MatExpansionModule } from '@angular/material';
 import { FeedService } from './services/feed.service';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { ThumbnailPipe } from './pipes/thumbnail.pipe';
+import { FilterPipe } from './pipes/simpleFilter.pipe';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     SpinnerComponent,
-    ThumbnailPipe
+    ThumbnailPipe,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
@@ -29,6 +34,7 @@ import { ThumbnailPipe } from './pipes/thumbnail.pipe';
     BrowserAnimationsModule,
     MatToolbarModule,
     MatExpansionModule,
+    FormsModule
   ],
   providers: [
     FeedService
