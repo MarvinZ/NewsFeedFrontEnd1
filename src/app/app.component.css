@@ -13,7 +13,7 @@
 table {
   border-collapse: collapse;
   width: 100%;
-  
+
 }
 
 table td,
@@ -37,4 +37,9 @@ table th {
   text-align: left;
   background-color: #4CAF50;
   color: white;
+}
+
+.spacer {
+  display: inline-block;
+  width: 25px;
 }

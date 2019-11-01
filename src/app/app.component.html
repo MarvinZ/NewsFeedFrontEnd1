@@ -1,14 +1,24 @@
+<div>
+  <h1>
+    ESPN News feeds
+  </h1>
+</div>
 <div *ngIf="AllFeeds; else FeedView">
 
   <button mat-raised-button color="primary" (click)="ToggleMyFeedsView()">
     {{ onlyMyFeeds ? 'View only my feeds' : 'View all feeds' }}
   </button>
+  <div class="spacer"></div>
+
+  <button mat-raised-button color="primary" (click)="refreshAllFeedsMF()">
+    View all content </button>
+
 
   <br>
   <hr>
   <br>
 
-  <div class="example-container">
+  <div>
     <input matInput [(ngModel)]="searchText" placeholder="search sports">
 
   </div>
@@ -16,7 +26,7 @@
   <br>
 
   <table style="text-align:center;">
-      <tr *ngFor="let feed of myFeeds | filter2 : searchText ">
+    <tr *ngFor="let feed of myFeeds | filter2 : searchText ">
       <td>{{feed.title}}</td>
       <!-- <td>{{feed.url}}</td> -->
       <td>
@@ -29,6 +39,10 @@
     </tr>
   </table>
 
+  <div *ngIf="myFeeds.length === 0">
+    No feeds to show
+  </div>
+
 </div>
 
 <ng-template #FeedView>
@@ -37,21 +51,24 @@
   <mat-toolbar color="primary">
     <span>{{title}}</span>
     <span class="fill-remaining-space"></span>
-    <span><i style="cursor:pointer" class="material-icons" (click)="refreshFeedMF(currentFeed)">refresh</i></span>
+    <span><i style="cursor:pointer" class="material-icons" (click)="refreshContent(currentFeed)">refresh</i></span>
   </mat-toolbar>
-
-
+  <br>
 
   <button mat-stroked-button color="warn" (click)="AllFeeds = !AllFeeds">
     {{ !onlyMyFeeds ? 'Go back to my feeds' : 'Go back to all feeds' }}
   </button>
 
-
+  <br><br>
   <ck-spinner *ngIf="!feeds.length"></ck-spinner>
+  <div>
+    <input matInput [(ngModel)]="searchTextNews" placeholder="search news">
+
+  </div>
 
   <mat-accordion>
 
-    <mat-expansion-panel *ngFor="let feed of feeds">
+    <mat-expansion-panel *ngFor="let feed of feeds | filter2 : searchTextNews">
       <mat-expansion-panel-header>
         <span style="font-size: smaller"> {{feed.title | slice:0:85}}</span>
       </mat-expansion-panel-header>
@@ -60,7 +77,7 @@
       {{feed.description | slice:0:1000}}...
 
       <div>
-        <img src={{feed.image}} width="50%"/>
+        <img src={{feed.image}} width="50%" />
       </div>
       <mat-action-row>
         <span style="cursor: pointer" (click)="openLinkInBrowser(feed)">Go to site!</span>

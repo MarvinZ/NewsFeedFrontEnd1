@@ -28,6 +28,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   myFeeds2: any;
   DoSubscribeUnSubscribeResult: any;
   currentFeed: any;
+  allnewsAllFeeds = false;
 
   constructor(
     private feedService: FeedService,
@@ -59,6 +60,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   refreshFeedMF(myFeed) {
+    this.allnewsAllFeeds = false;
     this.feeds.length = 0;
     this.currentFeed = myFeed;
     this.feedService.getFeedContent(myFeed).pipe(delay(500))
@@ -72,9 +74,26 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   }
 
-  // openLinkInBrowser(feed: { link: string; }) {
-  //   window.open(feed.link);
-  // }
+  refreshAllFeedsMF() {
+    this.feeds.length = 0;
+    this.currentFeed = [];
+    this.myFeeds.forEach(element => {
+      this.feedService.getFeedContent(element.url).pipe(delay(500))
+        .subscribe(
+          feed => {
+            this.title = 'All news from all feeds';
+            this.feeds = this.feeds.concat(feed.rss.channel.item);
+          },
+          error => console.log(error));
+    });
+    this.allnewsAllFeeds = true;
+    this.AllFeeds = false;
+
+  }
+
+  openLinkInBrowser(feed: { link: string; }) {
+    window.open(feed.link);
+  }
 
 
   GetMyFeeds() {
@@ -101,5 +120,15 @@ export class AppComponent implements OnInit, AfterViewInit {
 
         });
   }
+
+  refreshContent(currentFeed) {
+    if (this.allnewsAllFeeds) {
+      this.refreshAllFeedsMF();
+
+    } else {
+      this.refreshFeedMF(currentFeed);
+    }
+  }
+
 
 }
