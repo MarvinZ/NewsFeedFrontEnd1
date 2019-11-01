@@ -1,25 +1,36 @@
 <div>
-  <h1>
-    ESPN News feeds
-  </h1>
-</div>
-<div *ngIf="AllFeeds; else FeedView">
-
-  <button mat-raised-button color="primary" (click)="ToggleMyFeedsView()">
-    {{ onlyMyFeeds ? 'View only my feeds' : 'View all feeds' }}
-  </button>
-  <div class="spacer"></div>
-
-  <button mat-raised-button color="primary" (click)="refreshAllFeedsMF()">
-    View all content </button>
-
-
   <br>
   <hr>
+  <h1>
+    ESPN News Feeds - Modus Create Exercise - Marvin Zumbado Flores
+  </h1>
+  <hr>
+  <br>
+</div>
+
+
+<div *ngIf="AllFeeds; else FeedView">
+
+  <mat-toolbar color="primary">
+    <span>Newsfeeds</span>
+    <span class="fill-remaining-space"></span>
+    <span> <button mat-raised-button color="primary" (click)="ToggleMyFeedsView()">
+        {{ onlyMyFeeds ? 'View only my feeds' : 'View all feeds' }}
+      </button>
+      <div class="spacer"></div>
+
+      <button mat-raised-button color="primary" (click)="refreshAllFeedsMF()">
+        View all content </button>
+    </span>
+  </mat-toolbar>
   <br>
 
+ 
+
   <div>
-    <input matInput [(ngModel)]="searchText" placeholder="search sports">
+    <div class="spacer"></div>
+
+    <input matInput [(ngModel)]="searchText" placeholder="search sports feeds">
 
   </div>
 
@@ -48,39 +59,53 @@
 <ng-template #FeedView>
 
 
+
   <mat-toolbar color="primary">
     <span>{{title}}</span>
     <span class="fill-remaining-space"></span>
+    <span>
+      <button mat-stroked-button (click)="AllFeeds = !AllFeeds">
+        {{ !onlyMyFeeds ? 'Go back to my feeds' : 'Go back to all feeds' }}
+      </button>
+    </span>
     <span><i style="cursor:pointer" class="material-icons" (click)="refreshContent(currentFeed)">refresh</i></span>
+
   </mat-toolbar>
   <br>
-
-  <button mat-stroked-button color="warn" (click)="AllFeeds = !AllFeeds">
-    {{ !onlyMyFeeds ? 'Go back to my feeds' : 'Go back to all feeds' }}
-  </button>
-
-  <br><br>
   <ck-spinner *ngIf="!feeds.length"></ck-spinner>
   <div>
+    <div class="spacer"></div>
     <input matInput [(ngModel)]="searchTextNews" placeholder="search news">
 
   </div>
-
+  <br>
   <mat-accordion>
 
     <mat-expansion-panel *ngFor="let feed of feeds | filter2 : searchTextNews">
       <mat-expansion-panel-header>
-        <span style="font-size: smaller"> {{feed.title | slice:0:85}}</span>
+        <span> {{feed.title  }}</span>
+
+
       </mat-expansion-panel-header>
       <!-- <img (click)="openLinkInBrowser(feed)" width="100%" src="{{feed | thumbnail}}" alt="..."> -->
+      <hr> <span style="font-size: smaller"> {{feed.pubDate  }}</span>
       <br>
-      {{feed.description | slice:0:1000}}...
+      {{feed.description }}...
 
       <div>
         <img src={{feed.image}} width="50%" />
       </div>
       <mat-action-row>
-        <span style="cursor: pointer" (click)="openLinkInBrowser(feed)">Go to site!</span>
+        <span style="cursor: pointer" (click)="openLinkInBrowser(feed)"></span>
+
+        <button mat-stroked-button color="warn" (click)="MarkAsRead(feed)">
+          Mark as read </button>
+        <div class="spacer"></div>
+
+        <button mat-stroked-button color="warn" (click)="openLinkInBrowser(feed)">
+          Read in site </button>
+
+
       </mat-action-row>
 
     </mat-expansion-panel>

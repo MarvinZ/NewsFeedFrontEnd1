@@ -68,6 +68,8 @@ export class AppComponent implements OnInit, AfterViewInit {
         feed => {
           this.title = feed.rss.channel.description;
           this.feeds = feed.rss.channel.item;
+          console.log('feeds:', this.feeds);
+
         },
         error => console.log(error));
     this.AllFeeds = false;
@@ -130,5 +132,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
   }
 
+  MarkAsRead() {
+    alert('To Do');
+  }
 
 }
